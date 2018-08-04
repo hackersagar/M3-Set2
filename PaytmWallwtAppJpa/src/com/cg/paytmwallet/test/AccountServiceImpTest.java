@@ -1,14 +1,16 @@
-package com.cg.paytmwallet.service;
+package com.cg.paytmwallet.test;
+
 
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import com.cg.paytmwallet.bean.Account;
+import com.cg.paytmwallet.bean.AccountApp1;
 import com.cg.paytmwallet.exception.AccountException;
+import com.cg.paytmwallet.service.AccountService;
+import com.cg.paytmwallet.service.AccountServiceImp;
 
 public class AccountServiceImpTest {
 
@@ -16,7 +18,11 @@ public class AccountServiceImpTest {
 	
 	@Test
 	public void testCreateAccountMobileNum()  {
-		Account acc=new Account("98765432","summi","summi@gmail.com",500.0);
+		AccountApp1 acc=new AccountApp1();
+		acc.setBalance(2500.0);
+		acc.setEmailid("vineesha@gmail.com");
+		acc.setMobileNo("999999");
+		acc.setName("vineesha");
 		
 		try {
 			accService.createAccount(acc);
@@ -29,7 +35,11 @@ public class AccountServiceImpTest {
 	}
 	@Test
 	public void testCreateAccountName() {
-		Account acc=new Account("9876543210","s1","summi@gmail.com",500.0);
+		AccountApp1 acc=new AccountApp1();
+		acc.setBalance(2500.0);
+		acc.setEmailid("vineesha@gmail.com");
+		acc.setMobileNo("9999999999");
+		acc.setName("vinee123");
 		try {
 			accService.createAccount(acc);
 		} catch (AccountException e) {
@@ -38,7 +48,11 @@ public class AccountServiceImpTest {
 	}
 	@Test
 	public void testCreateAccountMailId() {
-		Account acc=new Account("9876543222","summi","summi@gmail",500.0);
+		AccountApp1 acc=new AccountApp1();
+		acc.setBalance(2000.0);
+		acc.setEmailid("vineesha123@gmail");
+		acc.setMobileNo("9380015060");
+		acc.setName("vineesha");
 		try {
 			accService.createAccount(acc);
 		} catch (AccountException e) {
@@ -47,26 +61,25 @@ public class AccountServiceImpTest {
 	}
 	@Test
 	public void testCreateAccountAmount() {
-		Account acc=new Account("9876543222","summi","summi@gmail.com",-1.0);
+		AccountApp1 acc=new AccountApp1();
+		acc.setBalance(-2000.0);
+		acc.setEmailid("vineesha@gmail.com");
+		acc.setMobileNo("9380015060");
+		acc.setName("vineesha");
 		try {
 			accService.createAccount(acc);
 		} catch (AccountException e) {
 			assertEquals("Enter Valid Amount should be greater than zero",e.getMessage());
 		}
 	}
-	@Test
-	public void testcreateAccountdoesNotExist() {
-		Account acc=new Account("9876543210","esha","vineesha@gmail.com",450.0);
-		try {
-		 accService.createAccount(acc);
-			} catch (AccountException e) {
-			assertEquals("Account with the mobileNo 9876543210 already exists",e.getMessage());
-		}
-		
-	}
+	
 	@Test
 	public void testCreateAccount() {
-		Account acc=new Account("9876543222","summi","summi@gmail.com",500.0);
+		AccountApp1 acc=new AccountApp1();
+		acc.setBalance(5000.0);
+		acc.setEmailid("eshanika@gmail.com");
+		acc.setMobileNo("9999999992");
+		acc.setName("eshanika");
 		try {
 			String mobileNo = accService.createAccount(acc);
 			assertNotNull(mobileNo);
@@ -83,20 +96,13 @@ public class AccountServiceImpTest {
 			assertEquals("Mobile Number should contain 10 digits",e.getMessage());
 		}
 	}
-	@Test
-	public void testShowBalanceMobileNumNotExist()  {
-		try {
-			accService.showBalance("1234567890");
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 1234567890 does not exist",e.getMessage());
-		}
-	}
+	
 	@Test
 	public void testShowBalance()  {
-		Account acc=new Account();
+		AccountApp1 acc=new AccountApp1();
 	try {
-			double amount=accService.showBalance("1234567890");
-			assertEquals(250.0, amount,0.00);
+			double amount=accService.showBalance("9380014060");
+			assertEquals(2000.0, amount,0.00);
 		} catch (AccountException e) {
 			assertEquals("Account with mobileno 1234567890 does not exist",e.getMessage());
 			}
@@ -118,21 +124,14 @@ public class AccountServiceImpTest {
 			assertEquals("Enter Valid Amount should be greater than zero",e.getMessage());
 		}
 	}
-	@Test
-	public void testDepositMobileNumDoesNotExist()  {
-		try {
-			accService.deposit("9876543567",50);
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 9876543567 does not exist",e.getMessage());
-		}
-	}
+	
 	@Test
 	public void testDeposit() {
-		Account acc=new Account();
-		acc.setMobileNo("9876543210");
+		AccountApp1 acc=new AccountApp1();
+		acc.setMobileNo("9999999998");
 		try {
-			Account ac= accService.deposit(acc.getMobileNo(),50);
-			assertNotNull(ac);
+			double ac= accService.deposit(acc.getMobileNo(),500);
+			assertEquals(6000.0, ac,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 		}
@@ -153,30 +152,23 @@ public class AccountServiceImpTest {
 			assertEquals("Enter Valid Amount should be greater than zero",e.getMessage());
 		}
 	}
-	@Test
-	public void testWithdrawMobileNumDoesNotExist()  {
-		try {
-			accService.deposit("9876543567",50);
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 9876543567 does not exist",e.getMessage());
-		}
-	}
+	
 	
 	@Test
 	public void testWithdrawMoreAmount() {
 		try {
-			accService.withdraw("9876543210",1000);
+			accService.withdraw("9999999995",10000);
 		} catch (AccountException e) {
-			assertEquals("Enter Amount it should be less than available amount",e.getMessage());
+			assertEquals("Enter amount less than existing amount",e.getMessage());
 		}
 	}
 	@Test
 	public void testWithdraw()  {
-		Account acc=new Account();
-		acc.setMobileNo("9876543210");
+		AccountApp1 acc=new AccountApp1();
+		acc.setMobileNo("9999999997");
 		try {
-			Account acc1 = accService.withdraw(acc.getMobileNo(),50);
-			assertNotNull(acc1);
+			double acc1 = accService.withdraw(acc.getMobileNo(),1000);
+			assertEquals(14000.0, acc1,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 			
@@ -207,38 +199,24 @@ public class AccountServiceImpTest {
 			assertEquals("Enter Valid Amount should be greater than zero",e.getMessage());
 		}
 	}
-	@Test
-	public void testFundTransferMobileNo1DoesNotExist() {
-		try {
-			accService.fundTransfer("9876549870","8765432190",50.0);
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 9876549870 does not exist",e.getMessage());
-		}
-	}
-	@Test
-	public void testFundTransferMobileNo2DoesNotExist() {
-		try {
-			accService.fundTransfer("9876543210","8765432190",50.0);
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 8765432190 does not exist",e.getMessage());
-		}
-	}
+	
 	@Test
 	public void testFundTransferMoreAmount() {
 		try {
-			accService.fundTransfer("9876543210","9876543211",1500);
+			accService.fundTransfer("9999999996","9999999997",10000000);
 		} catch (AccountException e) {
-			assertEquals("Enter Amount it should be less than available amount",e.getMessage());
+			System.out.println(e.getMessage());
+			assertEquals("Enter amount less than existing amount",e.getMessage());
 		}
 	}
 	@Test
 	public void testFundTransfer()  
 	{
-		Account acc=new Account();
-		Account acc1=new Account();
+		AccountApp1 acc=new AccountApp1();
+		AccountApp1 acc1=new AccountApp1();
 		try {
-			Account account = accService.fundTransfer("9876543210","9876543211",100);
-			assertNotNull(account);
+			boolean b = accService.fundTransfer("9999999999","9999999996",100);
+			assertNotNull(b);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 		}
@@ -251,25 +229,19 @@ public class AccountServiceImpTest {
 			assertEquals("Mobile Number should contain 10 digits",e.getMessage());
 		}
 	}
-	@Test
-	public void testPrintTransactionMobileNo1DoesNotExist() {
-		try {
-			accService.printTransactions("9876549870");
-		} catch (AccountException e) {
-			assertEquals("Account with mobileno 9876549870 does not exist",e.getMessage());
-		}
-	}
+	
 	@Test
 	public void testPrintTransactions()  {
-		Account acc=new Account();
+		AccountApp1 acc=new AccountApp1();
 		try {
-			Account acc1 = accService.printTransactions("9876543210");
+			AccountApp1 acc1 = accService.printTransactions("9999999999");
 			assertNotNull(acc1);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 			
 		}
 		}
+
 	
 
 }
