@@ -76,10 +76,10 @@ public class AccountServiceImpTest {
 	@Test
 	public void testCreateAccount() {
 		AccountApp1 acc=new AccountApp1();
-		acc.setBalance(5000.0);
-		acc.setEmailid("eshanika@gmail.com");
-		acc.setMobileNo("9999999992");
-		acc.setName("eshanika");
+		acc.setBalance(10000.0);
+		acc.setEmailid("jyothi@gmail.com");
+		acc.setMobileNo("99999998800");
+		acc.setName("jyothi");
 		try {
 			String mobileNo = accService.createAccount(acc);
 			assertNotNull(mobileNo);
@@ -131,7 +131,7 @@ public class AccountServiceImpTest {
 		acc.setMobileNo("9999999998");
 		try {
 			double ac= accService.deposit(acc.getMobileNo(),500);
-			assertEquals(6000.0, ac,0.00);
+			assertEquals(7000.0, ac,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 		}
@@ -168,7 +168,7 @@ public class AccountServiceImpTest {
 		acc.setMobileNo("9999999997");
 		try {
 			double acc1 = accService.withdraw(acc.getMobileNo(),1000);
-			assertEquals(14000.0, acc1,0.00);
+			assertEquals(12000.0, acc1,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 			
@@ -203,7 +203,7 @@ public class AccountServiceImpTest {
 	@Test
 	public void testFundTransferMoreAmount() {
 		try {
-			accService.fundTransfer("9999999996","9999999997",10000000);
+			accService.fundTransfer("9999999993","9999999992",10000);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 			assertEquals("Enter amount less than existing amount",e.getMessage());
