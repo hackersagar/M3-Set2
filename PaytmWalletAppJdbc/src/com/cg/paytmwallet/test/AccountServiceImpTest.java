@@ -76,10 +76,10 @@ public class AccountServiceImpTest {
 	@Test
 	public void testCreateAccount() {
 		Account acc=new Account();
-		acc.setBalance(5000.0);
-		acc.setEmailid("esha@gmail.com");
-		acc.setMobileNo("9380015002");
-		acc.setName("esha");
+		acc.setBalance(500.0);
+		acc.setEmailid("akanksha@gmail.com");
+		acc.setMobileNo("9380014001");
+		acc.setName("akanksha");
 		try {
 			String mobileNo = accService.createAccount(acc);
 			assertNotNull(mobileNo);
@@ -131,7 +131,7 @@ public class AccountServiceImpTest {
 		acc.setMobileNo("9380015050");
 		try {
 			double ac= accService.deposit(acc.getMobileNo(),500);
-			assertEquals(4500.0, ac,0.00);
+			assertEquals(8000.0, ac,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 		}
@@ -167,8 +167,8 @@ public class AccountServiceImpTest {
 		Account acc=new Account();
 		acc.setMobileNo("9380015090");
 		try {
-			double acc1 = accService.withdraw(acc.getMobileNo(),100);
-			assertEquals(600.0, acc1,0.00);
+			double acc1 = accService.withdraw(acc.getMobileNo(),10);
+			assertEquals(170.0, acc1,0.00);
 		} catch (AccountException e) {
 			System.out.println(e.getMessage());
 			
